@@ -1,2 +1,16 @@
 <h2>Profile Page</h2>
 <a href="/auth/logout">Logout</a>
+
+<a href="/posts/new" class="btn btn-primary col-sm-1">New Post</a>
+<a href="/draft" class="btn btn-info col-sm-1">Draft</a>
+
+<h1>List of My Posts</h1>
+<ul>
+  <% for (var i = 0; i < posts.length; i++) { %>
+    <% if (posts[i]) { %>
+      <li>
+        <a href="/posts/<%= posts[i].id %>"><%= posts[i].title ? posts[i].title : '(no title)' %></a>
+      </li>
+    <% } %>
+  <% } %>
+</ul>

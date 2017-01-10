@@ -1,0 +1,8 @@
+<h1><%= post.title %></h1>
+
+<p>
+  <strong><%= moment(post.createdAt).calendar() %></strong>
+</p>
+
+<p><%- post.content %></p>
+<a href="/posts/edit/<%= post.id %>">Edit</a>
