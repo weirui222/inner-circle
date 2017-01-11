@@ -23,7 +23,7 @@ router.get('/new', isLoggedIn, function(req, res) {
   res.render('post/new');
 });
 
-router.post('/public', function(req, res) {
+router.post('/public', isLoggedIn, function(req, res) {
   db.post.create({
     title: req.body.title,
     content: req.body.content,
@@ -38,7 +38,7 @@ router.post('/public', function(req, res) {
   });
 });
 
-router.post('/save', function(req, res) {
+router.post('/save', isLoggedIn, function(req, res) {
   db.post.create({
     title: req.body.title,
     content: req.body.content,
@@ -83,10 +83,50 @@ router.get('/post/:id', isLoggedIn, function(req, res) {
 });
 
 // Delete
-router.delete('/delete/:id', function(req, res) {
+router.delete('/delete/:id', isLoggedIn, function(req, res) {
   db.post.findById(req.params.id).then(function(post){
      post.destroy();
      res.send(req.body);
+  });
+});
+
+//edit
+router.get('/edit/:id', isLoggedIn, function(req, res) {
+  db.post.findById(req.params.id).then(function(post){
+     res.render('post/edit', {post: post});
+  });
+});
+
+router.post('/edit/public/:id', isLoggedIn, function(req, res) {
+  db.post.findById(req.params.id).then(function(post){
+    console.log('post',post);
+    console.log('req.body',req.body);
+    post.update({
+      title: req.body.title,
+      content: req.body.content,
+      isPublic: true
+    })
+    .then(function(post) {
+          res.redirect('/posts');
+      })
+    .catch(function(error) {
+      res.status(400).render('404');
+    });
+  });
+});
+router.post('/edit/save/:id', isLoggedIn, function(req, res) {
+  db.post.findById(req.params.id).then(function(post){
+    post.update({
+      title: req.body.title,
+      content: req.body.content,
+      isPublic: false
+    })
+    .then(function(post) {
+          res.redirect('/posts/draft');
+      })
+    .catch(function(error) {
+      res.status(400).render('404');
+    });
   });
 });
 

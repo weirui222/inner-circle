@@ -11,5 +11,9 @@
     <textarea type="text" class="form-control" id="content" name="content" data-provide="markdown"><%= post.content %></textarea>
   </div>
 
-  <input type="submit" class="btn btn-primary">
+  <p>
+    <button type="submit" formaction="/posts/edit/public/<%= post.id %>">Post To Public</button>
+    <button type="save" formaction="/posts/edit/save/<%= post.id %>">Save As Draft</button>
+  </p>
+
 </form>
