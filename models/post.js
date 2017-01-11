@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var post = sequelize.define('post', {
     title: DataTypes.STRING,
     content: DataTypes.TEXT,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    isPublic: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {

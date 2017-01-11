@@ -43,13 +43,17 @@ app.get('/home', isLoggedIn, function(req, res) {
 app.get('/profile', isLoggedIn, function(req, res) {
   // console.log('req.user.id',req.user.id);
   db.post.findAll({
-    where: {userId: req.user.id},
+    where: {
+      userId: req.user.id,
+      isPublic: true
+    },
     order: '"createdAt" DESC'
   }).then(function(posts){
     // console.log('POST', posts);
     res.render('profile',{ posts:posts });
   });
 });
+
 app.get('/connect', isLoggedIn, function(req, res) {
   res.render('connect');
 });

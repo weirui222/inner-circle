@@ -4,18 +4,17 @@ var router = express.Router();
 var isLoggedIn = require('../middleware/isLoggedIn');
 var async = require('async');
 
-router.post('/', isLoggedIn, function(req, res) {
-// A few basic validations
-  if (!req.body.title || req.body.title.length < 2) {
-    res.send('Error: Please include a title containing at least 3 letters.');
-  }
-  if (!req.body.content || req.body.content.trim().length < 5) {
-    res.send('Error: Please include a valid content section.');
-  }
+// create new post
+router.get('/new', isLoggedIn, function(req, res) {
+  res.render('post/new');
+});
+
+router.post('/public', function(req, res) {
   db.post.create({
     title: req.body.title,
     content: req.body.content,
-    userId: req.user.id
+    userId: req.user.id,
+    isPublic: true
   })
   .then(function(post) {
         res.redirect('/profile');
@@ -25,11 +24,22 @@ router.post('/', isLoggedIn, function(req, res) {
   });
 });
 
-router.get('/new', isLoggedIn, function(req, res) {
-  res.render('post/new');
+router.post('/save', function(req, res) {
+  db.post.create({
+    title: req.body.title,
+    content: req.body.content,
+    userId: req.user.id,
+    isPublic: false
+  })
+  .then(function(post) {
+        res.redirect('/posts/draft');
+    })
+  .catch(function(error) {
+    res.status(400).render('404');
+  });
 });
-
-router.get('/:id', isLoggedIn, function(req, res) {
+// go to one post
+router.get('/post/:id', isLoggedIn, function(req, res) {
   db.post.find({
     where: { id: req.params.id },
   })
@@ -41,5 +51,21 @@ router.get('/:id', isLoggedIn, function(req, res) {
     res.status(400).render('404');
   });
 });
+
+// go to draft to see draft list
+router.get('/draft', isLoggedIn, function(req, res) {
+  // console.log('req.user.id',req.user.id);
+  db.post.findAll({
+    where: {
+      userId: req.user.id,
+      isPublic: false
+    },
+    order: '"createdAt" DESC'
+  }).then(function(posts){
+    // console.log('POST', posts);
+    res.render('post/draft',{ posts:posts });
+  });
+});
+
 
 module.exports = router;
