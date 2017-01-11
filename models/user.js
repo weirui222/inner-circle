@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     hooks: {
       beforeCreate: function(createdUser, options, callback) {
-        if(createdUser.password){
+        if (createdUser.password) {
           var hash = bcrypt.hashSync(createdUser.password, 10);
           createdUser.password = hash;
         }
@@ -47,6 +47,8 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         models.user.hasMany(models.post);
+        models.user.belongsToMany(models.user, { as: 'friends', through: 'userFriends' });
+        // models.user.belongsToMany(models.user, { through: 'userFriends' });
       }
     },
     instanceMethods: {
