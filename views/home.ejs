@@ -1,3 +1,19 @@
 <h2>Home Page</h2>
 
 <a href="/auth/logout">Logout</a>
+
+<div class="container">
+  <h1 class="text-center">Hot top 10 in Reddit</h1>
+
+  <% for(var i = 0; i<10; i++) { %>
+    <div class="well">
+      <form method="GET" action="/share">
+        <a href="<%= reddits[i].data.url %>" target="_blank">
+          <%= reddits[i].data.title %></a>
+        <input hidden type="text" name="title" value="<%= reddits[i].data.title %>">
+        <input hidden type="text" name="url" value="<%= reddits[i].data.url %>">
+        <button class="btn btn-primary" type="submit">Share</button>
+      </form>
+    </div>
+  <% }; %>
+</div>

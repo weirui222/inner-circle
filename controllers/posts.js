@@ -12,9 +12,9 @@ router.get('/', isLoggedIn, function(req, res) {
       isPublic: true
     },
     order: '"createdAt" DESC'
-  }).then(function(posts){
+  }).then(function(posts) {
     // console.log('POST', posts);
-    res.render('profile',{ posts:posts });
+    res.render('profile', { posts: posts });
   });
 });
 
@@ -28,12 +28,14 @@ router.post('/public', isLoggedIn, function(req, res) {
     title: req.body.title,
     content: req.body.content,
     userId: req.user.id,
-    isPublic: true
+    isPublic: true,
+    url: req.body.url
   })
   .then(function(post) {
-        res.redirect('/posts');
-    })
+    res.redirect('/posts');
+  })
   .catch(function(error) {
+    console.log('error', error);
     res.status(400).render('404');
   });
 });
@@ -43,11 +45,12 @@ router.post('/save', isLoggedIn, function(req, res) {
     title: req.body.title,
     content: req.body.content,
     userId: req.user.id,
-    isPublic: false
+    isPublic: false,
+    url: req.body.url
   })
   .then(function(post) {
-        res.redirect('/posts/draft');
-    })
+    res.redirect('/posts/draft');
+  })
   .catch(function(error) {
     res.status(400).render('404');
   });
@@ -62,16 +65,16 @@ router.get('/draft', isLoggedIn, function(req, res) {
       isPublic: false
     },
     order: '"createdAt" DESC'
-  }).then(function(posts){
+  }).then(function(posts) {
     // console.log('POST', posts);
-    res.render('post/draft',{ posts:posts });
+    res.render('post/draft', { posts: posts });
   });
 });
 
 // go to one post
 router.get('/post/:id', isLoggedIn, function(req, res) {
   db.post.find({
-    where: { id: req.params.id },
+    where: { id: req.params.id }
   })
   .then(function(post) {
     if (!post) throw Error();
@@ -84,46 +87,46 @@ router.get('/post/:id', isLoggedIn, function(req, res) {
 
 // Delete
 router.delete('/delete/:id', isLoggedIn, function(req, res) {
-  db.post.findById(req.params.id).then(function(post){
-     post.destroy();
-     res.send(req.body);
+  db.post.findById(req.params.id).then(function(post) {
+    post.destroy();
+    res.send(req.body);
   });
 });
 
-//edit
+// edit
 router.get('/edit/:id', isLoggedIn, function(req, res) {
-  db.post.findById(req.params.id).then(function(post){
-     res.render('post/edit', {post: post});
+  db.post.findById(req.params.id).then(function(post) {
+    res.render('post/edit', { post: post });
   });
 });
 
 router.post('/edit/public/:id', isLoggedIn, function(req, res) {
-  db.post.findById(req.params.id).then(function(post){
-    console.log('post',post);
-    console.log('req.body',req.body);
+  db.post.findById(req.params.id).then(function(post) {
     post.update({
       title: req.body.title,
       content: req.body.content,
-      isPublic: true
+      isPublic: true,
+      url: req.body.url
     })
-    .then(function(post) {
-          res.redirect('/posts');
-      })
+    .then(function() {
+      res.redirect('/posts');
+    })
     .catch(function(error) {
       res.status(400).render('404');
     });
   });
 });
 router.post('/edit/save/:id', isLoggedIn, function(req, res) {
-  db.post.findById(req.params.id).then(function(post){
+  db.post.findById(req.params.id).then(function(post) {
     post.update({
       title: req.body.title,
       content: req.body.content,
-      isPublic: false
+      isPublic: false,
+      url: req.body.url
     })
-    .then(function(post) {
-          res.redirect('/posts/draft');
-      })
+    .then(function() {
+      res.redirect('/posts/draft');
+    })
     .catch(function(error) {
       res.status(400).render('404');
     });

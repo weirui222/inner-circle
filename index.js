@@ -9,6 +9,7 @@ var isLoggedIn = require('./middleware/isLoggedIn');
 var db = require('./models');
 var moment = require('moment');
 var path = require('path');
+var request = require('request');
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -39,7 +40,14 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 app.get('/home', isLoggedIn, function(req, res) {
-  res.render('home');
+  var redditUrl = 'https://www.reddit.com/hot.json';
+  request(redditUrl, function(error, response, body) {
+    var reddits = JSON.parse(body).data.children;
+    res.render('home', { reddits: reddits });
+  });
+});
+app.get('/share', isLoggedIn, function(req, res) {
+  res.render('share', { title: req.query.title, url: req.query.url });
 });
 
 

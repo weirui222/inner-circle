@@ -9,7 +9,7 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    return queryInterface.addColumn('posts', 'isPublic', Sequelize.BOOLEAN);
+    return queryInterface.addColumn('posts', 'url', Sequelize.TEXT);
   },
 
   down: function (queryInterface, Sequelize) {
@@ -20,6 +20,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.removeColumn('posts', 'isPublic');
+    return queryInterface.removeColumn('posts', 'url');
   }
 };

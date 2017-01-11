@@ -4,7 +4,14 @@
   <strong><%= moment(post.createdAt).calendar() %></strong>
 </p>
 
-<p><%- post.content %></p>
+<p>
+  <% if(post.url) { %>
+    <a href="<%= post.url %>" target="_blank"><%= post.content %></a>
+  <% } else { %>
+    <%- post.content %>
+  <% } %>
+
+</p>
 <a style="padding:0 20px" href="/posts/edit/<%= post.id %>">EDIT</a>
 <a class='<%= post.isPublic?"delete-ispublic-link":"delete-draft-link" %>'
   href="/posts/delete/<%= post.id %>">DELETE</a>

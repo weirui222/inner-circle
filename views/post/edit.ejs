@@ -7,8 +7,10 @@
   </div>
 
   <div class="form-group">
-    <label for="content">Content</label>
-    <textarea type="text" class="form-control" id="content" name="content" data-provide="markdown"><%= post.content %></textarea>
+    <% if(!post.url) { %>
+      <label for="content">Content</label>
+      <textarea type="text" class="form-control" id="content" name="content" data-provide="markdown"><%= post.content %></textarea>
+    <% } %>
   </div>
 
   <p>
