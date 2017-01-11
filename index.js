@@ -52,7 +52,12 @@ app.get('/share', isLoggedIn, function(req, res) {
 
 
 app.get('/connect', isLoggedIn, function(req, res) {
-  res.render('connect');
+  db.user.findById(req.user.id).then(function(friend) {
+    friend.getFriends().then(function(friends) {
+      console.log('Friends', friends);
+      res.render('connect', { friends: friends });
+    });
+  });
 });
 
 app.use('/auth', require('./controllers/auth'));

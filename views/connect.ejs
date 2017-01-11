@@ -25,10 +25,13 @@
 
 <h4>Friends</h4>
 <ul>
-  <li>
-    <form action="/auth/remove" method="POST">
-        <label for="name">user.name</label>
+
+  <% friends.forEach(function(instance) { %>
+    <li>
+      <form action="/friend/remove/:id" method="POST">
+        <label for="name"><%= instance.dataValues.name %></label>
         <button type="submit">Remove</button>
-    </form>
-  </li>
+      </form>
+    </li>
+  <% }); %>
 </ul>
