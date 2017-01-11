@@ -5,4 +5,6 @@
 </p>
 
 <p><%- post.content %></p>
-<a href="/posts/edit/<%= post.id %>">Edit</a>
+<a style="padding:0 20px" href="/posts/edit/<%= post.id %>">EDIT</a>
+<a class='<%= post.isPublic?"delete-ispublic-link":"delete-draft-link" %>'
+  href="/posts/delete/<%= post.id %>">DELETE</a>

@@ -8,6 +8,7 @@ var flash = require('connect-flash');
 var isLoggedIn = require('./middleware/isLoggedIn');
 var db = require('./models');
 var moment = require('moment');
+var path = require('path');
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -15,7 +16,7 @@ app.set('view engine', 'ejs');
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(ejsLayouts);
-
+app.use(express.static(path.join(__dirname, 'static')));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'supersecretpassword',
   resave: false,
@@ -40,19 +41,7 @@ app.get('/', function(req, res) {
 app.get('/home', isLoggedIn, function(req, res) {
   res.render('home');
 });
-app.get('/profile', isLoggedIn, function(req, res) {
-  // console.log('req.user.id',req.user.id);
-  db.post.findAll({
-    where: {
-      userId: req.user.id,
-      isPublic: true
-    },
-    order: '"createdAt" DESC'
-  }).then(function(posts){
-    // console.log('POST', posts);
-    res.render('profile',{ posts:posts });
-  });
-});
+
 
 app.get('/connect', isLoggedIn, function(req, res) {
   res.render('connect');
