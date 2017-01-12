@@ -13,7 +13,7 @@ router.post('/signup', function(req, res) {
   }).spread(function(user, created) {
     if (created) {
       passport.authenticate('local', {
-        successRedirect: '/posts',
+        successRedirect: '/home',
         successFlash: 'Account created and logged in'
       })(req, res);
     } else {
@@ -27,7 +27,7 @@ router.post('/signup', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/posts',
+  successRedirect: '/home',
   failureRedirect: '/',
   successFlash: 'Logged In!',
   failureFlash: 'Invalid username and/or password'

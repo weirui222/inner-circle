@@ -10,6 +10,7 @@ var db = require('./models');
 var moment = require('moment');
 var path = require('path');
 var request = require('request');
+var marked = require('marked');
 var app = express();
 
 app.set('view engine', 'ejs');
@@ -18,6 +19,8 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(ejsLayouts);
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(__dirname + '/node_modules/marked'));
+app.use(express.static(__dirname + '/node_modules/bootstrap-markdown'));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'supersecretpassword',
   resave: false,
@@ -33,6 +36,7 @@ app.use(function(req, res, next) {
   res.locals.alerts = req.flash();
   res.locals.currentUser = req.user;
   res.locals.moment = moment;
+  res.locals.marked = marked;
   next();
 });
 

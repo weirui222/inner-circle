@@ -8,7 +8,7 @@
   <% if(post.url) { %>
     <a href="<%= post.url %>" target="_blank"><%= post.content %></a>
   <% } else { %>
-    <%- post.content %>
+    <%- marked(post.content) %>
   <% } %>
 
 </p>
