@@ -1,5 +1,5 @@
 body {
-  background: url('http://i.imgur.com/qmlaA2B.jpg') no-repeat center center fixed;
+  background: url('') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -9,4 +9,29 @@ body {
 .content {
   max-height: 200px;
   overflow: auto;
+}
+
+.layout_container{
+  background: grey;
+  color: white;
+}
+body{
+  background: #e9ebee;
+}
+.index{
+  margin-top: 20px;
+}
+.img{
+  height: 220px;
+  width: 300px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+.img1{
+  background: url('../img/seewhat.jpg');
+  background-size: cover;
+}
+.img2{
+  background: url('../img/join.jpg');
+  background-size: cover;
 }

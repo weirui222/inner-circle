@@ -1,6 +1,4 @@
-<h2>Connect Page</h2>
-
-<a href="/auth/logout">Logout</a>
+<a href="/auth/logout" class="btn btn-info col-sm-offset-11" style="margin-top:20px;">Log out</a>
 
 <h4>Potentail Friends</h4>
 <ul>
@@ -9,7 +7,7 @@
       <form action="/addfriend" method="POST">
         <input hidden type="text" name="friendId" value="<%= instance.dataValues.id %>">
         <label for="name"><%= instance.dataValues.name %></label>
-        <button class="btn btn-primary" type="submit">Add As Friends</button>
+        <button class="btn btn-info" type="submit">Add As Friends</button>
       </form>
     </li>
   <% }); %>
