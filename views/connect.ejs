@@ -1,26 +1,33 @@
 <a href="/auth/logout" class="btn btn-info col-sm-offset-11" style="margin-top:20px;">Log out</a>
+<div class="row">
+  <div class="col-sm-6">
+    <h4>Friends</h4>
+    <ul>
+      <% friends.forEach(function(instance) { %>
+        <li>
+          <form action="/friend/:id" method="POST">
+            <input hidden type="text" name="title" value="<%= instance.dataValues.id %>">
+            <label for="name"><%= instance.dataValues.name %></label>
+          </form>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
 
-<h4>Potentail Friends</h4>
-<ul>
-  <% potentialFriends.forEach(function(instance) { %>
-    <li>
-      <form action="/addfriend" method="POST">
-        <input hidden type="text" name="friendId" value="<%= instance.dataValues.id %>">
-        <label for="name"><%= instance.dataValues.name %></label>
-        <button class="btn btn-info" type="submit">Add As Friends</button>
-      </form>
-    </li>
-  <% }); %>
-</ul>
-
-<h4>Friends</h4>
-<ul>
-  <% friends.forEach(function(instance) { %>
-    <li>
-      <form action="/friend/:id" method="POST">
-        <input hidden type="text" name="title" value="<%= instance.dataValues.id %>">
-        <label for="name"><%= instance.dataValues.name %></label>
-      </form>
-    </li>
-  <% }); %>
-</ul>
+  <div class="col-sm-6">
+    <h4>Potentail Friends</h4>
+    <ul>
+      <% potentialFriends.forEach(function(instance) { %>
+        <li>
+          <form action="/addfriend" method="POST">
+            <input hidden type="text" name="friendId" value="<%= instance.dataValues.id %>">
+            <label for="name"><%= instance.dataValues.name %></label>
+            <p>
+            <button class="btn-xs btn-info" type="submit">Add As Friends</button>
+          </p>
+          </form>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</div>

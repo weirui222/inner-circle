@@ -95,18 +95,23 @@ app.get('/connect', isLoggedIn, function(req, res) {
       db.user.findAll().then(function(allusers) {
         // console.log('allusers', allusers);
         for (var i = 0; i < allusers.length; i++) {
-          for (var j = 0; j < friends.length; j++) {
-            if (allusers[i].dataValues.id === friends[j].dataValues.id) {
-              // console.log('break allusers[i]', allusers[i].dataValues.id);
-              break;
+          if (friends.length !== 0) {
+            for (var j = 0; j < friends.length; j++) {
+              if (allusers[i].dataValues.id === friends[j].dataValues.id) {
+                // console.log('break allusers[i]', allusers[i].dataValues.id);
+                break;
+              }
+              if ((j === friends.length - 1) && allusers[i].dataValues.id !== req.user.id) {
+                potentialFriends.push(allusers[i]);
+                // console.log('push allusers[i]', allusers[i].dataValues.id);
+                // console.log('potentialFriends', potentialFriends);
+              }
             }
-            if ((j === friends.length - 1) && allusers[i].dataValues.id !== req.user.id) {
-              potentialFriends.push(allusers[i]);
-              // console.log('push allusers[i]', allusers[i].dataValues.id);
-              // console.log('potentialFriends', potentialFriends);
-            }
+          } else {
+            potentialFriends.push(allusers[i]);
           }
         }
+        console.log('potentialFriends', potentialFriends);
         res.render('connect', { friends: friends, potentialFriends: potentialFriends });
       });
     });
