@@ -15,6 +15,7 @@
     "func-names": 0,
     "space-before-function-paren": 0,
     "new-cap": 0,
+    "no-else-return": 0,
     "no-param-reassign": 0
   }
 }

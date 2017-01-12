@@ -17,3 +17,25 @@
     </div>
   <% }; %>
 </div>
+
+<div class="container">
+  <h1 class="text-center">Recent posts from friends</h1>
+
+  <% for(var i = 0; i<friendPosts.length; i++) { %>
+    <div class="well">
+      <form method="GET" action="/share">
+        <input hidden type="text" name="title" value="<%= friendPosts[i].post.content %>">
+        <input hidden type="text" name="url" value="<%= friendPosts[i].post.url %>">
+        <input hidden type="text" name="authorTitle" value="<%= '// ' +friendPosts[i].user.name + ': ' + friendPosts[i].post.title %>">
+        <h6><%= friendPosts[i].user.dataValues.name %> <small><%= friendPosts[i].post.createdAt %></small></h6>
+        <p><strong><%= friendPosts[i].post.title %></strong></p>
+        <% if(!friendPosts[i].post.url) { %>
+          <p><%= friendPosts[i].post.content %></p>
+        <% } else { %>
+          <a href="<%= friendPosts[i].post.url %>" target="_blank"><%= friendPosts[i].post.content %></a>
+        <% } %>
+        <button class="btn btn-primary" type="submit">Share</button>
+      </form>
+    </div>
+  <% }; %>
+</div>

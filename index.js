@@ -43,11 +43,43 @@ app.get('/home', isLoggedIn, function(req, res) {
   var redditUrl = 'https://www.reddit.com/hot.json';
   request(redditUrl, function(error, response, body) {
     var reddits = JSON.parse(body).data.children;
-    res.render('home', { reddits: reddits });
+    db.user.findById(req.user.id).then(function(user) {
+      user.getFriends({
+        include: [db.post]
+      }).then(function(friends) {
+        // console.log('friends', friends);
+        // console.log('friends[0].posts', friends[0].posts);
+        var friendPosts = [];
+        for (var i = 0; i < friends.length; i++) {
+          for (var j = 0; j < friends[i].posts.length; j++) {
+            if (friends[i].posts[j].dataValues.isPublic === true) {
+              friendPosts.push({
+                user: friends[i],
+                post: friends[i].posts[j]
+              });
+            }
+          }
+        }
+        friendPosts.sort(function(a, b) {
+          if (a.post.createdAt === b.post.createdAt) {
+            return 0;
+          } else if (a.post.createdAt > b.post.createdAt) {
+            return -1;
+          } else {
+            return 1;
+          }
+        });
+        res.render('home', { reddits: reddits, friendPosts: friendPosts });
+      });
+    });
   });
 });
 app.get('/share', isLoggedIn, function(req, res) {
-  res.render('share', { title: req.query.title, url: req.query.url });
+  res.render('share', {
+    title: req.query.title,
+    url: req.query.url,
+    authorTitle: req.query.authorTitle
+  });
 });
 
 
