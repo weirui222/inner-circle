@@ -108,7 +108,9 @@ app.get('/connect', isLoggedIn, function(req, res) {
               }
             }
           } else {
-            potentialFriends.push(allusers[i]);
+            if (allusers[i].dataValues.id !== req.user.id) {
+              potentialFriends.push(allusers[i]);
+            }
           }
         }
         console.log('potentialFriends', potentialFriends);
