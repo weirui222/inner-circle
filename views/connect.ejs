@@ -2,35 +2,26 @@
 
 <a href="/auth/logout">Logout</a>
 
-<h4>Pending Invitations</h4>
-<ul>
-  <li>
-    <form method="POST">
-        <label for="name">user.name</label>
-        <button type="submit" formaction="/auth/accept">Accept</button>
-        <button type="submit" formaction="/edit/ignore">Ignore</button>
-    </form>
-  </li>
-</ul>
-
 <h4>Potentail Friends</h4>
 <ul>
-  <li>
-    <form action="/auth/invitate" method="POST">
-        <label for="name">user.name</label>
-        <button type="submit">Add Friend</button>
-    </form>
-  </li>
+  <% potentialFriends.forEach(function(instance) { %>
+    <li>
+      <form action="/addfriend" method="POST">
+        <input hidden type="text" name="friendId" value="<%= instance.dataValues.id %>">
+        <label for="name"><%= instance.dataValues.name %></label>
+        <button class="btn btn-primary" type="submit">Add As Friends</button>
+      </form>
+    </li>
+  <% }); %>
 </ul>
 
 <h4>Friends</h4>
 <ul>
-
   <% friends.forEach(function(instance) { %>
     <li>
-      <form action="/friend/remove/:id" method="POST">
+      <form action="/friend/:id" method="POST">
+        <input hidden type="text" name="title" value="<%= instance.dataValues.id %>">
         <label for="name"><%= instance.dataValues.name %></label>
-        <button type="submit">Remove</button>
       </form>
     </li>
   <% }); %>

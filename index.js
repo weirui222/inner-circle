@@ -52,10 +52,42 @@ app.get('/share', isLoggedIn, function(req, res) {
 
 
 app.get('/connect', isLoggedIn, function(req, res) {
+  var potentialFriends = [];
   db.user.findById(req.user.id).then(function(friend) {
     friend.getFriends().then(function(friends) {
-      console.log('Friends', friends);
-      res.render('connect', { friends: friends });
+      // console.log('Friends', friends);
+      db.user.findAll().then(function(allusers) {
+        // console.log('allusers', allusers);
+        for (var i = 0; i < allusers.length; i++) {
+          for (var j = 0; j < friends.length; j++) {
+            if (allusers[i].dataValues.id === friends[j].dataValues.id) {
+              // console.log('break allusers[i]', allusers[i].dataValues.id);
+              break;
+            }
+            if ((j === friends.length - 1) && allusers[i].dataValues.id !== req.user.id) {
+              potentialFriends.push(allusers[i]);
+              // console.log('push allusers[i]', allusers[i].dataValues.id);
+              // console.log('potentialFriends', potentialFriends);
+            }
+          }
+        }
+        res.render('connect', { friends: friends, potentialFriends: potentialFriends });
+      });
+    });
+  });
+});
+
+app.post('/addfriend', isLoggedIn, function(req, res) {
+  // console.log('req.user.id ', req.user.id);
+  // console.log('req.body', req.body.friendId);
+  db.user.find({ where: { id: req.user.id } }).then(function(user1) {
+    db.user.find({ where: { id: req.body.friendId } }).then(function(user2) {
+      // console.log('users:', user1, user2);
+      user1.addFriend(user2).then(function() {
+        user2.addFriend(user1).then(function() {
+          res.redirect('/connect');
+        });
+      });
     });
   });
 });
