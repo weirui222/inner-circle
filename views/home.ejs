@@ -42,6 +42,20 @@
           <% } %>
           <button class="btn btn-primary glyphicon glyphicon-share-alt" type="submit"></button>
         </form>
+        <p></p>
+
+        <form method="POST" action="/like">
+          <input hidden type="text" name="id" value="<%= friendPosts[i].post.id %>">
+          <button class="btn btn-primary glyphicon glyphicon-heart" type="like"></button>
+        </form>
+
+        <p class="likes">
+          <% if(likes[friendPosts[i].post.id]) { %>
+            <%= likes[friendPosts[i].post.id].join(",") %>
+          <% } %>
+
+        </p>
+
       </div>
     <% }; %>
   </div>

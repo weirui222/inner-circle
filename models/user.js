@@ -48,6 +48,7 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         models.user.hasMany(models.post);
         models.user.belongsToMany(models.user, { as: 'friends', through: 'userFriends' });
+        models.user.belongsToMany(models.post, { as: 'likes', through: 'postsLikes' });
         // models.user.belongsToMany(models.user, { through: 'userFriends' });
       }
     },

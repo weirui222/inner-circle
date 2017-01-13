@@ -73,11 +73,47 @@ app.get('/home', isLoggedIn, function(req, res) {
             return 1;
           }
         });
-        res.render('home', { reddits: reddits, friendPosts: friendPosts });
+
+        db.postsLikes.findAll().then(function(likes) {
+          var postsToUserLikes = {};
+          var userIdToUsername = {};
+
+          db.user.findAll().then(function(users) {
+            users.forEach(function(user) {
+              userIdToUsername[user.id] = user.name;
+            });
+
+            likes.forEach(function(like) {
+              if (postsToUserLikes[like.postId] === undefined) {
+                postsToUserLikes[like.postId] = [];
+              }
+              var username = userIdToUsername[like.userId];
+              postsToUserLikes[like.postId].push(username);
+            });
+
+            res.render('home', {
+              reddits: reddits,
+              friendPosts: friendPosts,
+              likes: postsToUserLikes
+            });
+          });
+        });
       });
     });
   });
 });
+
+
+app.post('/like', isLoggedIn, function(req, res) {
+  db.post.findById(req.body.id).then(function(post) {
+    console.log('LIKING post id:', req.body.id);
+    req.user.addLike(post).then(function(user) {
+      console.log('null likes USER', user);
+      res.redirect('/home');
+    });//
+  });
+});
+
 app.get('/share', isLoggedIn, function(req, res) {
   res.render('share', {
     title: req.query.title,

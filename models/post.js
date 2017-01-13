@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         models.post.belongsTo(models.user);
+        models.post.belongsToMany(models.user, { as: 'likes', through: 'postsLikes' });
       }
     }
   });
