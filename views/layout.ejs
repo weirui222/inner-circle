@@ -19,6 +19,9 @@
       <a href="/home" class="btn btn-primary">Home</a>
       <a href="/posts" class="btn btn-primary">Profile</a>
       <a href="/connect" class="btn btn-primary">Connect</a>
+      <% if (currentUser) { %>
+        <a href="/auth/logout" class="btn btn-primary">Log out</a>
+      <% } %>
     </div>
     <br>
     </div>
