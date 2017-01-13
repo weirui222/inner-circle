@@ -25,33 +25,35 @@
 
     <% for(var i = 0; i<friendPosts.length&& i<10; i++) { %>
       <div class="well">
-        <form method="GET" action="/share">
-          <input hidden type="text" name="title" value="<%= friendPosts[i].post.content %>">
-          <input hidden type="text" name="url" value="<%= friendPosts[i].post.url %>">
-          <input hidden type="text" name="authorTitle" value="<%= '// ' +friendPosts[i].user.name + ': ' + friendPosts[i].post.title %>">
-          <h6><%= friendPosts[i].user.dataValues.name %> <small><%= moment(friendPosts[i].post.createdAt).calendar() %></small></h6>
-          <p><strong><%= friendPosts[i].post.title %></strong></p>
-          <% if(!friendPosts[i].post.url) { %>
-            <p><%- marked(friendPosts[i].post.content) %></p>
-          <% } else { %>
-            <p class="content">
-              <a href="<%= friendPosts[i].post.url %>" target="_blank">
-                <%= friendPosts[i].post.content %>
-              </a>
-            </p>
-          <% } %>
-          <button class="btn btn-primary glyphicon glyphicon-share-alt" type="submit"></button>
-        </form>
-        <p></p>
+        <h6><%= friendPosts[i].user.dataValues.name %> <small><%= moment(friendPosts[i].post.createdAt).calendar() %></small></h6>
+        <p><strong><%= friendPosts[i].post.title %></strong></p>
+        <% if(!friendPosts[i].post.url) { %>
+          <p><%- marked(friendPosts[i].post.content) %></p>
+        <% } else { %>
+          <p class="content">
+            <a href="<%= friendPosts[i].post.url %>" target="_blank">
+              <%= friendPosts[i].post.content %>
+            </a>
+          </p>
+        <% } %>
+        <div>
+          <form method="GET" action="/share" style="display:inline-block">
+            <input hidden type="text" name="title" value="<%= friendPosts[i].post.content %>">
+            <input hidden type="text" name="url" value="<%= friendPosts[i].post.url %>">
+            <input hidden type="text" name="authorTitle" value="<%= '// ' +friendPosts[i].user.name + ': ' + friendPosts[i].post.title %>">
+            <button class="btn btn-primary glyphicon glyphicon-share-alt" type="submit"></button>
+          </form>
 
-        <form method="POST" action="/like">
-          <input hidden type="text" name="id" value="<%= friendPosts[i].post.id %>">
-          <button class="btn btn-primary glyphicon glyphicon-heart" type="like"></button>
-        </form>
+          <form method="POST" action="/like" style="display:inline-block">
+            <input hidden type="text" name="id" value="<%= friendPosts[i].post.id %>">
+            <button class="btn btn-primary glyphicon glyphicon-heart" type="like"></button>
+          </form>
+        </div>
+
 
         <p class="likes">
           <% if(likes[friendPosts[i].post.id]) { %>
-            <%= likes[friendPosts[i].post.id].join(",") %>
+            <h6><small><%= likes[friendPosts[i].post.id].join(",") %> <span class="glyphicon glyphicon-heart"></span> this</small></h6>
           <% } %>
 
         </p>
