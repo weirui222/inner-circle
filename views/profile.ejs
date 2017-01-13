@@ -1,15 +1,30 @@
 
 <a href="/posts/new" class="btn btn-info" style="margin-top:20px" >New Post</a>
-<a href="/posts/draft" class="btn btn-info" style="margin-top:20px">Draft</a>
 <a href="/auth/logout" class="btn btn-info" style="margin-top:20px;margin-left: 700px;">Log out</a>
 <br>
-<h1>List of My Public Posts</h1>
-<ul>
-  <% for (var i = 0; i < posts.length; i++) { %>
-    <% if (posts[i]) { %>
-      <li>
-        <a href="/posts/post/<%= posts[i].id %>"><%= posts[i].title ? posts[i].title : '(no title)' %></a>
-      </li>
-    <% } %>
-  <% } %>
-</ul>
+<div class="row">
+  <div class="col-sm-6">
+    <h3>My Public Posts</h3>
+    <ul>
+      <% for (var i = 0; i < posts.length; i++) { %>
+        <% if (posts[i]) { %>
+          <li>
+            <a href="/posts/post/<%= posts[i].id %>"><%= posts[i].title ? posts[i].title : '(no title)' %></a>
+          </li>
+        <% } %>
+      <% } %>
+    </ul>
+  </div>
+  <div class="col-sm-6">
+    <h3>My Drafts</h3>
+    <ul>
+      <% for (var i = 0; i < drafts.length; i++) { %>
+        <% if (drafts[i]) { %>
+          <li>
+            <a href="/posts/post/<%= drafts[i].id %>"><%= drafts[i].title ? drafts[i].title : '(no title)' %></a>
+          </li>
+        <% } %>
+      <% } %>
+    </ul>
+  </div>
+</div>

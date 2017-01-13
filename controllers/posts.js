@@ -13,8 +13,16 @@ router.get('/', isLoggedIn, function(req, res) {
     },
     order: '"createdAt" DESC'
   }).then(function(posts) {
-    // console.log('POST', posts);
-    res.render('profile', { posts: posts });
+    db.post.findAll({
+      where: {
+        userId: req.user.id,
+        isPublic: false
+      },
+      order: '"createdAt" DESC'
+    }).then(function(drafts) {
+      // console.log('POST', posts);
+      res.render('profile', { posts: posts, drafts: drafts });
+    });
   });
 });
 
@@ -49,25 +57,10 @@ router.post('/save', isLoggedIn, function(req, res) {
     url: req.body.url
   })
   .then(function(post) {
-    res.redirect('/posts/draft');
+    res.redirect('/posts');
   })
   .catch(function(error) {
     res.status(400).render('404');
-  });
-});
-
-// go to draft to see draft list
-router.get('/draft', isLoggedIn, function(req, res) {
-  // console.log('req.user.id',req.user.id);
-  db.post.findAll({
-    where: {
-      userId: req.user.id,
-      isPublic: false
-    },
-    order: '"createdAt" DESC'
-  }).then(function(posts) {
-    // console.log('POST', posts);
-    res.render('post/draft', { posts: posts });
   });
 });
 
@@ -125,7 +118,7 @@ router.post('/edit/save/:id', isLoggedIn, function(req, res) {
       url: req.body.url
     })
     .then(function() {
-      res.redirect('/posts/draft');
+      res.redirect('/posts');
     })
     .catch(function(error) {
       res.status(400).render('404');

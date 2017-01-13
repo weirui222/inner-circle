@@ -2,7 +2,7 @@
 <div class="row">
 
   <div class="col-sm-6 container">
-    <h1 class="text-center">Hot top 10 in Reddit</h1>
+    <h3 class="text-center">Hot top 10 in Reddit</h3>
 
     <% for(var i = 0; i<10; i++) { %>
       <div class="well">
@@ -14,14 +14,14 @@
           </p>
           <input hidden type="text" name="title" value="<%= reddits[i].data.title %>">
           <input hidden type="text" name="url" value="<%= reddits[i].data.url %>">
-          <button class="btn btn-primary" type="submit">Share</button>
+          <button class="btn btn-primary glyphicon glyphicon-share-alt" type="submit"></button>
         </form>
       </div>
     <% }; %>
   </div>
 
   <div class="col-sm-6 container">
-    <h1 class="text-center">Recent posts from friends</h1>
+    <h3 class="text-center">Recent posts from friends</h3>
 
     <% for(var i = 0; i<friendPosts.length&& i<10; i++) { %>
       <div class="well">
@@ -29,7 +29,7 @@
           <input hidden type="text" name="title" value="<%= friendPosts[i].post.content %>">
           <input hidden type="text" name="url" value="<%= friendPosts[i].post.url %>">
           <input hidden type="text" name="authorTitle" value="<%= '// ' +friendPosts[i].user.name + ': ' + friendPosts[i].post.title %>">
-          <h6><%= friendPosts[i].user.dataValues.name %> <small><%= friendPosts[i].post.createdAt %></small></h6>
+          <h6><%= friendPosts[i].user.dataValues.name %> <small><%= moment(friendPosts[i].post.createdAt).calendar() %></small></h6>
           <p><strong><%= friendPosts[i].post.title %></strong></p>
           <% if(!friendPosts[i].post.url) { %>
             <p><%- marked(friendPosts[i].post.content) %></p>
@@ -40,7 +40,7 @@
               </a>
             </p>
           <% } %>
-          <button class="btn btn-primary" type="submit">Share</button>
+          <button class="btn btn-primary glyphicon glyphicon-share-alt" type="submit"></button>
         </form>
       </div>
     <% }; %>

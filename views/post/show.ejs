@@ -12,6 +12,6 @@
   <% } %>
 
 </p>
-<a class="btn btn-info" style="padding:0 20px" href="/posts/edit/<%= post.id %>">EDIT</a>
-<a class='btn-sm btn-info <%= post.isPublic?"delete-ispublic-link":"delete-draft-link" %>'
-  href="/posts/delete/<%= post.id %>">DELETE</a>
+<a class="btn btn-info glyphicon glyphicon-edit" href="/posts/edit/<%= post.id %>"></a>
+<a class='btn btn-info glyphicon glyphicon-trash <%= post.isPublic?"delete-ispublic-link":"delete-draft-link" %>'
+  href="/posts/delete/<%= post.id %>"></a>

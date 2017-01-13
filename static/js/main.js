@@ -40,6 +40,6 @@ $('.delete-draft-link').on('click', function(e) {
     method: 'DELETE',
     url: url
   }).done(function(data) {
-    window.location = '/posts/draft';
+    window.location = '/posts';
   });
 });
