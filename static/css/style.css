@@ -27,3 +27,11 @@ body{
   background: url('../img/join.jpg');
   background-size: cover;
 }
+.test {
+  text-align: center;
+  margin-top: 120px;
+  text-decoration: underline;
+}
+small{
+  margin: 0 10px;
+}

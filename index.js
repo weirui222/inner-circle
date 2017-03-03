@@ -44,7 +44,7 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 app.get('/home', isLoggedIn, function(req, res) {
-  var redditUrl = 'https://www.reddit.com/hot.json';
+  var redditUrl = 'https://www.reddit.com/hot.json?limit=10';
   request(redditUrl, function(error, response, body) {
     var reddits = JSON.parse(body).data.children;
     db.user.findById(req.user.id).then(function(user) {
